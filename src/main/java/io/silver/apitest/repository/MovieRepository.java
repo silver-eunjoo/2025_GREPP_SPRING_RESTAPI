@@ -5,11 +5,13 @@ import io.silver.apitest.dto.UpdateRequest;
 import io.silver.apitest.entity.Movie;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Getter;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class MovieRepository {
 
+    @Getter
     private Long sequence = 0L;
     Map<Long, Movie> movieList = new HashMap<>();
 

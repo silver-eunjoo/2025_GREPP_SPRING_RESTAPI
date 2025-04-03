@@ -30,8 +30,10 @@ public class MovieController {
     }
 
     @PostMapping
-    public Movie save(@RequestBody Movie movie) {
-        return movieRepository.save(movie);
+    public Long save(@RequestBody SaveRequest request) {
+        Movie movie = Movie.of(request);
+        movieRepository.save(movie);
+        return movie.getId();
     }
 
     @PatchMapping("/{movieId}")
