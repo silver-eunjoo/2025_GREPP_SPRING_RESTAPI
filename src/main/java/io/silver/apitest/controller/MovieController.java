@@ -7,6 +7,7 @@ import io.silver.apitest.entity.Movie;
 import io.silver.apitest.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -25,33 +26,32 @@ public class MovieController {
     private final MovieRepository movieRepository;
 
     @GetMapping("/{movieId}")
-    @ResponseStatus(HttpStatus.OK)
-    public Movie findById(@PathVariable Long movieId) {
+//    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Movie> findById(@PathVariable Long movieId) {
         Movie findMovie = movieRepository.getById(movieId);
-
-        return findMovie;
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(findMovie);
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Long save(@RequestBody SaveRequest request) {
-        Movie movie = Movie.of(request);
-        movieRepository.save(movie);
-        return movie.getId();
+//    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Long> save(@RequestBody SaveRequest saveRequest) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(movieRepository.save(Movie.of(saveRequest)).getId());
     }
 
 
     @PatchMapping("/{movieId}")
-    @ResponseStatus(HttpStatus.OK)
-    public Movie update(@PathVariable Long movieId, @RequestBody UpdateRequest updateRequest) {
-        Movie updatedMovie = movieRepository.update(movieId, updateRequest);
-
-        return updatedMovie;
+//    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Movie> update(@PathVariable Long movieId, @RequestBody UpdateRequest updateRequest) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(movieRepository.update(movieId, updateRequest));
     }
 
     @DeleteMapping("/{movieId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long movieId) {
+//    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<Void> delete(@PathVariable Long movieId) {
         movieRepository.remove(movieId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
