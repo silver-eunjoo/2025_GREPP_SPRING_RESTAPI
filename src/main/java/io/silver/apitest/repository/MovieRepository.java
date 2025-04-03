@@ -7,7 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class PostRepository {
+public class MovieRepository {
 
     private Long sequence = 0L;
     Map<Long, Movie> movieList = new HashMap<>();
