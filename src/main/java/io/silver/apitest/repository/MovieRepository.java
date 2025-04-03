@@ -1,5 +1,6 @@
 package io.silver.apitest.repository;
 
+import io.silver.apitest.dto.SaveRequest;
 import io.silver.apitest.dto.UpdateRequest;
 import io.silver.apitest.entity.Movie;
 import java.util.HashMap;
@@ -13,10 +14,10 @@ public class MovieRepository {
     Map<Long, Movie> movieList = new HashMap<>();
 
     public Movie save(Movie movie) {
-        sequence ++;
-        Movie newMovie = movieList.put(sequence, movie);
-
-        return newMovie;
+        sequence++;
+        movie.setId(sequence);
+        movieList.put(movie.getId(), movie);
+        return movie;
     }
 
     public Movie getById(Long id) {
@@ -31,9 +32,11 @@ public class MovieRepository {
 
     public Movie update(Long id, UpdateRequest updateRequest) {
         Movie findMovie = movieList.get(id);
-        Movie updatedMovie = findMovie.update(updateRequest);
+        findMovie.update(updateRequest);
 
-        return updatedMovie;
+        movieList.replace(findMovie.getId(), findMovie);
+
+        return findMovie;
     }
 
 }

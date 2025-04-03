@@ -1,5 +1,6 @@
 package io.silver.apitest.entity;
 
+import io.silver.apitest.dto.SaveRequest;
 import io.silver.apitest.dto.UpdateRequest;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
@@ -26,6 +27,15 @@ public class Movie {
         this.updatedAt = LocalDateTime.now();
 
         return this;
+    }
+
+    public static Movie of(SaveRequest request) {
+        Movie movie = new Movie();
+        movie.title = request.getTitle();
+        movie.actor = request.getActor();
+        movie.contents = request.getContents();
+
+        return movie;
     }
 
 }
